@@ -37,8 +37,8 @@ app.get('/trails/:id', async (req, res) => {
    res.render('trails/detail', {trail})
 })
 
-app.post('/trails/new', async (req, res) => {
-    const trail = new Trail({})
+app.get('/trails/new', (req, res) => {
+    res.render('trails/new');
 })
 
 app.listen(3000, ()=> {
