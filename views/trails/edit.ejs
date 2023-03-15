@@ -1,0 +1,41 @@
+<% layout('layouts/boilerplate')%>
+
+    <h1 class="text-center"> Edit <%= trail.title %>
+    </h1>
+    <div class="row col-md-12">
+        <form action='/trails/<%=trail._id%>?_method=PUT' method="POST" novalidate class="validated">
+            <div class="col-6 offset-3 mb-3">
+                <label class="form-label" for="title"> Enter trail name </label>
+                <input type="text" class="form-control" name="title" id="title" value="<%=trail.title%>" required>
+                <div class="valid-feedback"> Looks good! </div>
+            </div>
+            <div class="col-6 offset-3 mb-3">
+                <label class="form-label" for="location"> Enter state </label>
+                <input type="text" class="form-control" name="location" id="location" value="<%=trail.location%>"
+                    required>
+                <div class="valid-feedback"> Looks good! </div>
+            </div>
+            <div class="col-6 offset-3 mb-3">
+                <label class="form-label" for="image"> Enter image URL </label>
+                <input type="text" class="form-control" name="image" id="image" value="<%=trail.image%>" required>
+                <div class="valid-feedback"> Looks good! </div>
+            </div>
+            <div class="col-6 offset-3 mb-3">
+                <label class="form-label" for="distance"> Enter distance in miles </label>
+                <input type="text" class="form-control" name="distance" id="distance" value="<%=trail.distance%>"
+                    required>
+                <div class="valid-feedback"> Looks good! </div>
+            </div>
+            <div class="col-6 offset-3 mb-3">
+                <label class="form-label" for="difficulty"> Select difficulty </label>
+                <select name="difficulty" class="form-control" id="difficulty" required>
+                    <% for (let diff of difficulty) { %>
+                        <option value="<%=diff%>" <%=trail.difficulty===diff ? 'selected' : '' %> > <%= diff %>
+                        </option>
+                        <% } %>
+                </select>
+            </div>
+            <button class="btn btn-success col-sm-2 offset-3 mb-3"> Update trail </button>
+        </form>
+        <a href="/trails/<%=trail._id%>" class="col-6 offset-3 mb-5"> Back to trails </a>
+    </div>

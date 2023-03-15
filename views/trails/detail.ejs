@@ -1,24 +1,30 @@
-<% layout('layouts/boilerplate')%> 
+<% layout('layouts/boilerplate')%>
 
-<div class="row mb-3 "> 
-    <div class="col-lg-4 offset-lg-4"> 
-<div class="card mb-2 ">
-    <img src="<%= trail.image %>" height="300px" min-width="200px" class="card-img-top" alt="N/A">
-    <div class="card-body">
-      <h5 class="card-title"> <%= trail.title %> </h5>
+  <div class="row mb-3 ">
+    <div class="col-lg-4 offset-lg-4">
+      <div class="card mb-2 ">
+        <img src="<%= trail.image %>" height="300px" min-width="200px" class="card-img-top" alt="N/A">
+        <div class="card-body">
+          <h5 class="card-title">
+            <%= trail.title %>
+          </h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"> Located in <%= trail.location %>
+          </li>
+          <li class="list-group-item"> Difficulty - <%= trail.difficulty %>
+          </li>
+          <li class="list-group-item">
+            <%= trail.distance %> miles
+          </li>
+        </ul>
+        <div class="card-body">
+          <a href="<%=trail._id%>/edit" class="card-link btn btn-outline-info"> Edit trail </a>
+          <form class="d-inline" action="/trails/<%=trail._id%>?_method=DELETE" method="POST">
+            <button class="btn btn-outline-danger"> Delete trail </button>
+          </form>
+        </div>
+        <div class="card-footer text-muted"> 2 days ago </div>
+      </div>
+      <a href="/trails"> Return to all trails </a>
     </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item"> Located in <%= trail.location %> </li>
-      <li class="list-group-item"> Difficulty - <%= trail.difficulty %> </li>
-      <li class="list-group-item"> <%= trail.distance %> miles</li>
-    </ul>
-    <div class="card-body">
-        <a href="<%=trail._id%>/edit" class="card-link btn btn-outline-info"> Edit trail </a>
-        <form class="d-inline" action="/trails/<%=trail._id%>?_method=DELETE" method="POST">
-             <button class="btn btn-outline-danger" > Delete trail </button>
-        </form>
-    </div>
-   <div class="card-footer text-muted"> 2 days ago </div>
-</div>
-<a href="/trails" > Return to all trails </a> 
-</div>
