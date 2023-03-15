@@ -1,21 +1,28 @@
-<% layout('layouts/boilerplate')%> 
-    <h1 > Trails List </h1>
-    <% for (let t of trail_list) { %> 
-       
-    <div class="card mb-4" style="max-width: 640px;">
-       <div class="row g-0">
-       <div class="col-6">
-          <img style="height: 250px ; width: 280px" src="<%=t.image%>" class="rounded-start img-fluid" alt="N/A">
-       </div>
-       <div class="col-5">
-          <div class="card-body">
-             <h4 class="card-title"> <%= t.title %> </h4>
-             <p class="card-text"> Located in <%= t.location %> </p>
-             <p class="card-text mb-5"><small class="text-muted"> <%= t.distance %> miles </small></p>
-             <a href="trails/<%=t._id%>" class="btn btn-outline-info col-auto row-1" tabindex="-1" role="button" >View <%= t.title %> </a>
-          </div>
-       </div>
-       </div>
-    </div>
-    <% } %> 
-       <a href="trails/new" class="btn btn-secondary col-auto row-1 mb-3" tabindex="-1" role="button" > Add a new trail </a>
+<% layout('layouts/boilerplate')%>
+   <h1> Trails List </h1>
+   <% for (let t of trail_list) { %>
+
+      <div class="card mb-4" style="max-width: 640px;">
+         <div class="row g-0">
+            <div class="col-6">
+               <img style="height: 250px ; width: 280px" src="<%=t.image%>" class="rounded-start img-fluid" alt="N/A">
+            </div>
+            <div class="col-5">
+               <div class="card-body">
+                  <h4 class="card-title">
+                     <%= t.title %>
+                  </h4>
+                  <p class="card-text"> Located in <%= t.location %>
+                  </p>
+                  <p class="card-text mb-5"><small class="text-muted">
+                        <%= t.distance %> miles
+                     </small></p>
+                  <a href="trails/<%=t._id%>" class="btn btn-outline-info col-auto row-1" tabindex="-1"
+                     role="button">View <%= t.title %> </a>
+               </div>
+            </div>
+         </div>
+      </div>
+      <% } %>
+         <a href="trails/new" class="btn btn-secondary col-auto row-1 mb-3" tabindex="-1" role="button"> Add a new trail
+         </a>
