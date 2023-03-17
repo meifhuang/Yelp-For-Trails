@@ -6,6 +6,7 @@ const Trail = require('./models/trail');
 const methodOverride = require('method-override');
 require("dotenv").config();
 const ejsMate = require('ejs-mate');
+const catchAsync = require('./utils/catchAsync');
 
 
 mongoose.connect(process.env.MONGODB, {
@@ -44,32 +45,41 @@ app.get('/trails/new', (req, res) => {
     res.render('trails/new', { difficulty });
 })
 
-app.post('/trails', async (req, res) => {
+app.post('/trails', catchAsync(async (req, res, next) => {
     const trail = new Trail(req.body);
     await trail.save();
     res.redirect(`/trails/${trail._id}`);
-})
+}))
 
-app.get('/trails/:id', async (req, res) => {
+app.get('/trails/:id', catchAsync(async (req, res) => {
     const trail = await Trail.findById(req.params.id);
     res.render('trails/detail', { trail })
-})
+}))
 
-app.get('/trails/:id/edit', async (req, res) => {
+app.get('/trails/:id/edit', catchAsync(async (req, res) => {
     const trail = await Trail.findById(req.params.id);
     res.render('trails/edit', { trail, difficulty })
-})
+}))
 
-app.put('/trails/:id/', async (req, res) => {
+app.put('/trails/:id/', catchAsync(async (req, res) => {
     const { id } = req.params
     const trail = await Trail.findByIdAndUpdate(id, { ...req.body })
     res.redirect(`/trails/${trail._id}`)
-})
+}))
 
 app.delete('/trails/:id', async (req, res) => {
     const { id } = req.params;
     await Trail.findByIdAndDelete(id);
     res.redirect('/trails');
+})
+
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page Not Found', 404))
+})
+
+app.use((err, req, res, next) => {
+    const { status = 500, message = 'Something went wrong' } = err;
+    res.status(status).send(message);
 })
 
 app.listen(3000, () => {
