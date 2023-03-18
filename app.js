@@ -8,6 +8,8 @@ require("dotenv").config();
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError')
+const { trailSchema } = require('./schemas.js');
+const Joi = require('joi');
 
 
 mongoose.connect(process.env.MONGODB, {
@@ -33,6 +35,17 @@ app.use(methodOverride('_method'));
 //for trail difficulty options
 const difficulty = ['Easy', 'Moderate', 'Strenuous', 'Extremely strenuous']
 
+const validateTrail = (req, res, next) => {
+    const { error } = trailSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(e => e.message).join(',')
+        throw new ExpressError(msg, 400);
+    }
+    else {
+        next();
+    }
+}
+
 app.get('/', (req, res) => {
     res.render("home");
 })
@@ -46,8 +59,9 @@ app.get('/trails/new', (req, res) => {
     res.render('trails/new', { difficulty });
 })
 
-app.post('/trails', catchAsync(async (req, res, next) => {
-    if (!req.body) throw new ExpressError('Invalid Campground Data', 400);
+app.post('/trails', validateTrail, catchAsync(async (req, res, next) => {
+
+    // if (!req.body) throw new ExpressError('Invalid Campground Data', 400);
     const trail = new Trail(req.body);
     await trail.save();
     res.redirect(`/trails/${trail._id}`);
@@ -63,7 +77,7 @@ app.get('/trails/:id/edit', catchAsync(async (req, res) => {
     res.render('trails/edit', { trail, difficulty })
 }))
 
-app.put('/trails/:id/', catchAsync(async (req, res) => {
+app.put('/trails/:id/', validateTrail, catchAsync(async (req, res) => {
     const { id } = req.params
     const trail = await Trail.findByIdAndUpdate(id, { ...req.body })
     res.redirect(`/trails/${trail._id}`)
