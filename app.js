@@ -80,7 +80,7 @@ app.post('/trails', validateTrail, catchAsync(async (req, res, next) => {
 app.delete('/trails/:id/reviews/:reviewid', catchAsync(async (req, res, next) => {
     const {id, reviewid} = req.params;
     await Trail.findByIdAndUpdate(id, {$pull: {reviews: reviewid}})
-    await Trail.findByIdAndDelete(reviewid);
+    await Review.findByIdAndDelete(reviewid);
     res.redirect(`/trails/${id}`); 
 }))
 
