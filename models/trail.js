@@ -6,7 +6,13 @@ const TrailSchema = new Schema({
     image: String,
     difficulty: String, 
     location: String,
-    distance: Number
+    distance: Number,
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Review'
+        }
+    ]
 })
 
 module.exports = mongoose.model("Trail", TrailSchema);

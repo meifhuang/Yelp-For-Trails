@@ -8,8 +8,9 @@ require("dotenv").config();
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError')
-const { trailSchema } = require('./schemas.js');
+const { trailSchema, reviewSchema} = require('./schemas.js');
 const Joi = require('joi');
+const Review = require('./models/review');
 
 
 mongoose.connect(process.env.MONGODB, {
@@ -46,6 +47,17 @@ const validateTrail = (req, res, next) => {
     }
 }
 
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(e => e.message).join(',')
+        throw new ExpressError(msg, 400);
+    }
+    else {
+        next();
+    }
+}
+
 app.get('/', (req, res) => {
     res.render("home");
 })
@@ -60,15 +72,20 @@ app.get('/trails/new', (req, res) => {
 })
 
 app.post('/trails', validateTrail, catchAsync(async (req, res, next) => {
-
-    // if (!req.body) throw new ExpressError('Invalid Campground Data', 400);
     const trail = new Trail(req.body);
     await trail.save();
     res.redirect(`/trails/${trail._id}`);
 }))
 
+app.delete('/trails/:id/reviews/:reviewid', catchAsync(async (req, res, next) => {
+    const {id, reviewid} = req.params;
+    await Trail.findByIdAndUpdate(id, {$pull: {reviews: reviewid}})
+    await Trail.findByIdAndDelete(reviewid);
+    res.redirect(`/trails/${id}`); 
+}))
+
 app.get('/trails/:id', catchAsync(async (req, res) => {
-    const trail = await Trail.findById(req.params.id);
+    const trail = await Trail.findById(req.params.id).populate('reviews');
     res.render('trails/detail', { trail })
 }))
 
@@ -88,6 +105,16 @@ app.delete('/trails/:id', async (req, res) => {
     await Trail.findByIdAndDelete(id);
     res.redirect('/trails');
 })
+
+app.post('/trails/:id/reviews', validateReview, catchAsync(async (req, res) => {
+    const trail = await Trail.findById(req.params.id);
+    const review = new Review(req.body);
+    trail.reviews.push(review);
+    await review.save();
+    await trail.save();
+    res.redirect(`/trails/${trail._id}`); 
+}))
+
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
