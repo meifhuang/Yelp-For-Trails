@@ -2,22 +2,17 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
-const Trail = require('./models/trail');
 const methodOverride = require('method-override');
 require("dotenv").config();
 const ejsMate = require('ejs-mate');
-const catchAsync = require('./utils/catchAsync');
-const ExpressError = require('./utils/ExpressError')
-const { trailSchema, reviewSchema} = require('./schemas.js');
-const Joi = require('joi');
-const Review = require('./models/review');
-
 const trails = require('./routes/trailroutes');
 const reviews = require('./routes/reviewroutes');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 mongoose.connect(process.env.MONGODB, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true, 
 });
 
 
@@ -28,25 +23,34 @@ db.once("open", () => {
     console.log("database connected");
 })
 
-
 app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public')));
 
-
-
-const validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(e => e.message).join(',')
-        throw new ExpressError(msg, 400);
-    }
-    else {
-        next();
+const sessConfig = {
+    secret:  process.env.SECRET_KEY, 
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true, 
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
     }
 }
+
+app.use(session(sessConfig));
+app.use(flash());
+
+
+//middleware for every single request - all routes will all have access to these
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
 
 app.get('/', (req, res) => {
     res.render("home");

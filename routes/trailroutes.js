@@ -33,29 +33,39 @@ router.get('/new', (req, res) => {
 router.post('/', validateTrail, catchAsync(async (req, res, next) => {
     const trail = new Trail(req.body);
     await trail.save();
+    req.flash('success', 'Succesfully created trail');
     res.redirect(`/trails/${trail._id}`);
 }))
 
-
 router.get('/:id', catchAsync(async (req, res) => {
     const trail = await Trail.findById(req.params.id).populate('reviews');
+    if (!trail) {
+        req.flash('error', 'Trail not found')
+        return res.redirect('/trails');
+    }
     res.render('trails/detail', { trail })
 }))
 
-router.get('/:id/edit', catchAsync(async (req, res) => {
+router.get('/:id/edit', catchAsync(async (req, res,) => {
     const trail = await Trail.findById(req.params.id);
+    if (!trail) {
+        req.flash('error', 'Trail not found')
+        return res.redirect('/trails');
+    }
     res.render('trails/edit', { trail, difficulty })
 }))
 
-router.put('/:id/', validateTrail, catchAsync(async (req, res) => {
+router.put('/:id', validateTrail, catchAsync(async (req, res) => {
     const { id } = req.params
     const trail = await Trail.findByIdAndUpdate(id, { ...req.body })
+    req.flash('success', "Successfully updated trail")
     res.redirect(`/trails/${trail._id}`)
 }))
 
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     await Trail.findByIdAndDelete(id);
+    req.flash('success', "Deleted trail")
     res.redirect('/trails');
 })
 
