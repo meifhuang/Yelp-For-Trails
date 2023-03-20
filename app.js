@@ -12,6 +12,8 @@ const { trailSchema, reviewSchema} = require('./schemas.js');
 const Joi = require('joi');
 const Review = require('./models/review');
 
+const trails = require('./routes/trailroutes');
+const reviews = require('./routes/reviewroutes');
 
 mongoose.connect(process.env.MONGODB, {
     useNewUrlParser: true,
@@ -33,19 +35,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-//for trail difficulty options
-const difficulty = ['Easy', 'Moderate', 'Strenuous', 'Extremely strenuous']
 
-const validateTrail = (req, res, next) => {
-    const { error } = trailSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(e => e.message).join(',')
-        throw new ExpressError(msg, 400);
-    }
-    else {
-        next();
-    }
-}
 
 const validateReview = (req, res, next) => {
     const { error } = reviewSchema.validate(req.body);
@@ -62,58 +52,8 @@ app.get('/', (req, res) => {
     res.render("home");
 })
 
-app.get('/trails', async (req, res) => {
-    const trail_list = await Trail.find({});
-    res.render('trails/index', { trail_list });
-})
-
-app.get('/trails/new', (req, res) => {
-    res.render('trails/new', { difficulty });
-})
-
-app.post('/trails', validateTrail, catchAsync(async (req, res, next) => {
-    const trail = new Trail(req.body);
-    await trail.save();
-    res.redirect(`/trails/${trail._id}`);
-}))
-
-app.delete('/trails/:id/reviews/:reviewid', catchAsync(async (req, res, next) => {
-    const {id, reviewid} = req.params;
-    await Trail.findByIdAndUpdate(id, {$pull: {reviews: reviewid}})
-    await Review.findByIdAndDelete(reviewid);
-    res.redirect(`/trails/${id}`); 
-}))
-
-app.get('/trails/:id', catchAsync(async (req, res) => {
-    const trail = await Trail.findById(req.params.id).populate('reviews');
-    res.render('trails/detail', { trail })
-}))
-
-app.get('/trails/:id/edit', catchAsync(async (req, res) => {
-    const trail = await Trail.findById(req.params.id);
-    res.render('trails/edit', { trail, difficulty })
-}))
-
-app.put('/trails/:id/', validateTrail, catchAsync(async (req, res) => {
-    const { id } = req.params
-    const trail = await Trail.findByIdAndUpdate(id, { ...req.body })
-    res.redirect(`/trails/${trail._id}`)
-}))
-
-app.delete('/trails/:id', async (req, res) => {
-    const { id } = req.params;
-    await Trail.findByIdAndDelete(id);
-    res.redirect('/trails');
-})
-
-app.post('/trails/:id/reviews', validateReview, catchAsync(async (req, res) => {
-    const trail = await Trail.findById(req.params.id);
-    const review = new Review(req.body);
-    trail.reviews.push(review);
-    await review.save();
-    await trail.save();
-    res.redirect(`/trails/${trail._id}`); 
-}))
+app.use("/trails", trails)
+app.use("/trails/:id/reviews", reviews);
 
 
 app.all('*', (req, res, next) => {
