@@ -4,11 +4,16 @@ const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 require("dotenv").config();
+const ExpressError = require('./utils/ExpressError');
 const ejsMate = require('ejs-mate');
-const trails = require('./routes/trailroutes');
-const reviews = require('./routes/reviewroutes');
+const trailRoute = require('./routes/trailroutes');
+const reviewRoute = require('./routes/reviewroutes');
+const userRoute = require('./routes/userroute');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
 
 mongoose.connect(process.env.MONGODB, {
     useNewUrlParser: true,
@@ -43,6 +48,15 @@ const sessConfig = {
 
 app.use(session(sessConfig));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session())
+
+
+passport.use(new LocalStrategy(User.authenticate()));
+//how to serialize user - store user in a session
+passport.serializeUser(User.serializeUser());
+//unstore 
+passport.deserializeUser(User.deserializeUser()); 
 
 
 //middleware for every single request - all routes will all have access to these
@@ -56,8 +70,15 @@ app.get('/', (req, res) => {
     res.render("home");
 })
 
-app.use("/trails", trails)
-app.use("/trails/:id/reviews", reviews);
+app.get('/fakeUser', async (req, res) => {
+    const user = new User({email: 'colt@gmail.com', username: 'colt'})
+    const newUser = await User.register(user, 'chicken')
+    res.send(newUser);  
+})
+
+app.use("/trails", trailRoute)
+app.use("/trails/:id/reviews", reviewRoute)
+app.use("/", userRoute);
 
 
 app.all('*', (req, res, next) => {
