@@ -32,13 +32,14 @@ router.get('/new', isLoggedIn, (req, res) => {
 
 router.post('/', isLoggedIn, validateTrail, catchAsync(async (req, res, next) => {
     const trail = new Trail(req.body);
+    trail.author = req.user._id;
     await trail.save();
     req.flash('success', 'Succesfully created trail');
     res.redirect(`/trails/${trail._id}`);
 }))
 
 router.get('/:id', catchAsync(async (req, res) => {
-    const trail = await Trail.findById(req.params.id).populate('reviews');
+    const trail = await Trail.findById(req.params.id).populate('reviews').populate('author');
     if (!trail) {
         req.flash('error', 'Trail not found')
         return res.redirect('/trails');

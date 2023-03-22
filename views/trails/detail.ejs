@@ -18,14 +18,18 @@
             <%= trail.distance %> miles
           </li>
         </ul>
-        <div class="card-body">
-          <a href="<%=trail._id%>/edit" class="card-link btn btn-outline-info"> Edit trail </a>
-          <form class="d-inline" action="/trails/<%=trail._id%>?_method=DELETE" method="POST">
-            <button class="btn btn-outline-danger"> Delete trail </button>
-          </form>
-        </div>
-        <div class="card-footer text-muted"> 2 days ago </div>
+        <% if (currentUser && trail.author.equals(currentUser._id)) {%>
+          <div class="card-body">
+            <a href="<%=trail._id%>/edit" class="card-link btn btn-outline-info"> Edit trail </a>
+            <form class="d-inline" action="/trails/<%=trail._id%>?_method=DELETE" method="POST">
+              <button class="btn btn-outline-danger"> Delete trail </button>
+            </form>
+          </div>
+          <% } %>
+            <div class="card-footer text-muted"> Added by <%=trail.author.username%>
+            </div>
       </div>
+
       <div class="mb-3">
         <a href="/trails"> Return to all trails </a>
       </div>
