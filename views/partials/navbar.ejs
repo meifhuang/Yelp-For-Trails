@@ -1,21 +1,24 @@
-<nav class="navbar sticky-top bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark" >
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/trails"> Yelp Trail </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/trails"> Trails </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/trails/new"> Add a trail </a>
-          </li>
-        </ul>
+<nav class="navbar sticky-top bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/trails"> Yelp Trail </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/trails"> Trails </a>
+        <a class="nav-link" href="/trails/new"> Add a trail </a>
       </div>
     </div>
-  </nav>
+    <div class="navbar-nav ml-auto">
+      <% if (!currentUser) {%>
+        <a class="nav-link" href="/login"> Login </a>
+        <a class="nav-link" href="/register"> Register </a>
+        <% } else {%>
+          <a class="nav-link" href="/logout"> Log out</a>
+          <%}%>
+    </div>
+  </div>
+</nav>

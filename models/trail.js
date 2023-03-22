@@ -4,11 +4,15 @@ const Schema = mongoose.Schema;
 
 
 const TrailSchema = new Schema({
-    title: String, 
+    title: String,
     image: String,
-    difficulty: String, 
+    difficulty: String,
     location: String,
     distance: Number,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     reviews: [
         {
             type: Schema.Types.ObjectId,
@@ -17,15 +21,15 @@ const TrailSchema = new Schema({
     ]
 })
 
-TrailSchema.post('findOneAndDelete', async function (doc) { 
+TrailSchema.post('findOneAndDelete', async function (doc) {
     if (doc) {
         await Review.deleteMany({
-            _id: { 
-                $in: doc.reviews 
+            _id: {
+                $in: doc.reviews
             }
         })
     }
-})  
-    
- 
+})
+
+
 module.exports = mongoose.model("Trail", TrailSchema);

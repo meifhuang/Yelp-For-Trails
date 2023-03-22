@@ -3,8 +3,8 @@ const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError')
 const Trail = require('../models/trail');
-const { trailSchema} = require('../schemas.js');
-
+const { trailSchema } = require('../schemas.js');
+const { isLoggedIn } = require('../middleware');
 
 //for trail difficulty options
 const difficulty = ['Easy', 'Moderate', 'Strenuous', 'Extremely strenuous']
@@ -26,11 +26,11 @@ router.get('/', async (req, res) => {
     res.render('trails/index', { trail_list });
 })
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('trails/new', { difficulty });
 })
 
-router.post('/', validateTrail, catchAsync(async (req, res, next) => {
+router.post('/', isLoggedIn, validateTrail, catchAsync(async (req, res, next) => {
     const trail = new Trail(req.body);
     await trail.save();
     req.flash('success', 'Succesfully created trail');
@@ -46,7 +46,7 @@ router.get('/:id', catchAsync(async (req, res) => {
     res.render('trails/detail', { trail })
 }))
 
-router.get('/:id/edit', catchAsync(async (req, res,) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res,) => {
     const trail = await Trail.findById(req.params.id);
     if (!trail) {
         req.flash('error', 'Trail not found')
@@ -55,7 +55,7 @@ router.get('/:id/edit', catchAsync(async (req, res,) => {
     res.render('trails/edit', { trail, difficulty })
 }))
 
-router.put('/:id', validateTrail, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, validateTrail, catchAsync(async (req, res) => {
     const { id } = req.params
     const trail = await Trail.findByIdAndUpdate(id, { ...req.body })
     req.flash('success', "Successfully updated trail")

@@ -17,7 +17,7 @@ const User = require('./models/user');
 
 mongoose.connect(process.env.MONGODB, {
     useNewUrlParser: true,
-    useUnifiedTopology: true, 
+    useUnifiedTopology: true,
 });
 
 
@@ -36,11 +36,11 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 const sessConfig = {
-    secret:  process.env.SECRET_KEY, 
+    secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
     cookie: {
-        httpOnly: true, 
+        httpOnly: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7,
     }
@@ -56,11 +56,16 @@ passport.use(new LocalStrategy(User.authenticate()));
 //how to serialize user - store user in a session
 passport.serializeUser(User.serializeUser());
 //unstore 
-passport.deserializeUser(User.deserializeUser()); 
-
+passport.deserializeUser(User.deserializeUser());
 
 //middleware for every single request - all routes will all have access to these
 app.use((req, res, next) => {
+    console.log(req.originalUrl)
+    if (!['/login', '/home'].includes(req.originalUrl)) {
+        req.session.returnTo = req.originalUrl;
+        console.log("checking route", req.session)
+    }
+    res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
@@ -68,12 +73,6 @@ app.use((req, res, next) => {
 
 app.get('/', (req, res) => {
     res.render("home");
-})
-
-app.get('/fakeUser', async (req, res) => {
-    const user = new User({email: 'colt@gmail.com', username: 'colt'})
-    const newUser = await User.register(user, 'chicken')
-    res.send(newUser);  
 })
 
 app.use("/trails", trailRoute)
