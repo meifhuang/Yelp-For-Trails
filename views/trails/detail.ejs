@@ -53,9 +53,9 @@
         <% for (let review of trail.reviews) {%>
           <div class="card mb-3">
             <div class="card-body">
-              <h5 class="card-title"> Rating: <%= review.rating %>
+              <h5 class="card-title mt-1"> Rating: <%= review.rating %>
               </h5>
-              <h6 class="card-subtitle mb-2 text-muted">
+              <h6 class="card-subtitle mb-1 text-muted">
                 By <%= review.author.username %>
               </h6>
               <p> Review: <%= review.comment %>

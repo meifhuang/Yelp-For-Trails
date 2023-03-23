@@ -3,6 +3,8 @@ const Review = require("./review");
 const Schema = mongoose.Schema;
 
 
+const difficulty = ['Easy', 'Moderate', 'Strenuous', 'Extremely strenuous']
+
 const TrailSchema = new Schema({
     title: String,
     image: String,
