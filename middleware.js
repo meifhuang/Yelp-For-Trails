@@ -1,7 +1,7 @@
 const { trailSchema, reviewSchema } = require('./schemas.js');
 const ExpressError = require('./utils/ExpressError')
 const Trail = require('./models/trail');
-
+const Review = require('./models/review');
 
 
 module.exports.isLoggedIn = (req, res, next) => {
@@ -17,6 +17,16 @@ module.exports.isAuthor = async (req, res, next) => {
     const { id } = req.params;
     const trail = await Trail.findById(id);
     if (!trail.author.equals(req.user._id)) {
+        req.flash("error", 'You do not have permission to do that')
+        return res.redirect(`/trails/${id}`);
+    }
+    next();
+}
+
+module.exports.isReviewAuthor = async (req, res, next) => {
+    const { id, reviewid } = req.params;
+    const review = await Review.findById(reviewid);
+    if (!review.author.equals(req.user._id)) {
         req.flash("error", 'You do not have permission to do that')
         return res.redirect(`/trails/${id}`);
     }

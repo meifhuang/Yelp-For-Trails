@@ -38,9 +38,10 @@
       <form action="/trails/<%=trail._id%>/reviews" method="POST" class="mb-3 validated" novalidate>
         <div class="mb-3">
           <div class="mb-3">
-            <h3 class="mt-2"> Leave a review </h3>
-            <label for="rating" class="form-label"> Rating </label>
-            <input type="range" class="form-range" min="1" max="5" name="rating" id="rating">
+            <% if (currentUser) {%>
+              <h3 class="mt-2"> Leave a review </h3>
+              <label for="rating" class="form-label"> Rating </label>
+              <input type="range" class="form-range" min="1" max="5" name="rating" id="rating">
           </div>
           <label class="form-label" for="comment"> Review </label>
           <textarea class="form-control" name="comment" id="comment" cols="30" rows="5" required></textarea>
@@ -48,18 +49,23 @@
         </div>
         <button class="btn btn-success"> Submit </button>
       </form>
-
-      <% for (let review of trail.reviews) {%>
-        <div class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title"> Rating: <%= review.rating %>
-            </h5>
-            <p> Review: <%= review.comment %>
-            </p>
-            <form action="/trails/<%=trail._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
-              <button class="btn btn-sm btn-danger"> Delete </button>
-            </form>
+      <%}%>
+        <% for (let review of trail.reviews) {%>
+          <div class="card mb-3">
+            <div class="card-body">
+              <h5 class="card-title"> Rating: <%= review.rating %>
+              </h5>
+              <h6 class="card-subtitle mb-2 text-muted">
+                By <%= review.author.username %>
+              </h6>
+              <p> Review: <%= review.comment %>
+              </p>
+              <form action="/trails/<%=trail._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+                <% if (currentUser && review.author.equals(currentUser._id)) { %>
+                  <button class="btn btn-sm btn-danger"> Delete </button>
+                  <% } %>
+              </form>
+            </div>
           </div>
-        </div>
-        <%}%>
+          <%}%>
     </div>

@@ -5,10 +5,20 @@ const ExpressError = require('../utils/ExpressError')
 const Trail = require('../models/trail');
 const Review = require('../models/review');
 const { reviewSchema } = require('../schemas.js');
-const { isLoggedIn, validateReview } = require('../middleware');
+const { isLoggedIn, validateReview, isReviewAuthor } = require('../middleware');
 
+router.post('/', isLoggedIn, validateReview, catchAsync(async (req, res) => {
+    const trail = await Trail.findById(req.params.id);
+    const review = new Review(req.body);
+    review.author = req.user._id;
+    trail.reviews.push(review);
+    await review.save();
+    await trail.save();
+    req.flash('success', 'Created new review')
+    res.redirect(`/trails/${trail._id}`);
+}))
 
-router.delete('/:reviewid', catchAsync(async (req, res, next) => {
+router.delete('/:reviewid', isLoggedIn, isReviewAuthor, catchAsync(async (req, res, next) => {
     const { id, reviewid } = req.params;
     await Trail.findByIdAndUpdate(id, { $pull: { reviews: reviewid } })
     await Review.findByIdAndDelete(reviewid);
@@ -16,14 +26,6 @@ router.delete('/:reviewid', catchAsync(async (req, res, next) => {
     res.redirect(`/trails/${id}`);
 }))
 
-router.post('/', isLoggedIn, validateReview, catchAsync(async (req, res) => {
-    const trail = await Trail.findById(req.params.id);
-    const review = new Review(req.body);
-    trail.reviews.push(review);
-    await review.save();
-    await trail.save();
-    req.flash('success', 'Created new review')
-    res.redirect(`/trails/${trail._id}`);
-}))
+
 
 module.exports = router; 
