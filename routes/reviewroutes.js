@@ -5,18 +5,8 @@ const ExpressError = require('../utils/ExpressError')
 const Trail = require('../models/trail');
 const Review = require('../models/review');
 const { reviewSchema } = require('../schemas.js');
-const { isLoggedIn } = require('../middleware');
+const { isLoggedIn, validateReview } = require('../middleware');
 
-const validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(e => e.message).join(',')
-        throw new ExpressError(msg, 400);
-    }
-    else {
-        next();
-    }
-}
 
 router.delete('/:reviewid', catchAsync(async (req, res, next) => {
     const { id, reviewid } = req.params;
