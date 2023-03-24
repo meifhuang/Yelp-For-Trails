@@ -18,7 +18,7 @@ module.exports.createTrail = async (req, res, next) => {
     trail.author = req.user._id;
     await trail.save();
     console.log(trail);
-    req.flash('success', 'Succesfully created trail');
+    req.flash('success', 'Successfully created trail');
     res.redirect(`/trails/${trail._id}`);
 }
 

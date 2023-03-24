@@ -35,10 +35,11 @@
                         <% } %>
                 </select>
             </div>
-            <div class="col-6 offset-3 mb-3">
-                <label for="image" class="form-label"> Add images </label>
-                <input type="file" name="image" id="image" multiple>
-             </div>
+            <div class="col-6 offset-3 mb-3 ">
+                <label for="image" class="form-label"> Add Image(s) </label>
+                <input type="file" class="form-control" name="image" id="image" multiple>
+                <div class="valid-feedback"> Looks good! </div>
+            </div>
             <button class="btn btn-success col-sm-2 offset-3 mb-3"> Update trail </button>
         </form>
         <a href="/trails/<%=trail._id%>" class="col-6 offset-3 mb-5"> Back to trails </a>

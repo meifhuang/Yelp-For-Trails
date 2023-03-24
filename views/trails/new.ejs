@@ -19,7 +19,7 @@
                 <input type="text" class="form-control" name="distance" id="distance" required>
                 <div class="valid-feedback"> Looks good! </div>
             </div>
-            <div class="col-6 offset-3 mb-4">
+            <div class="col-6 offset-3 mb-3">
                 <label class="form-label" for="difficulty"> Select difficulty </label>
                 <select name="difficulty" class="form-control" id="difficulty" required>
                     <% for (let diff of difficulty) { %>
@@ -29,13 +29,11 @@
                         <% } %>
                 </select>
             </div>
-            <div class="mb-3">
-                <label for="formFile" class="form-label">Default file input example</label>
-                <input class="form-control" type="file" id="formFile">
-              </div>
-            <div class="col-6 offset-3 mb-3">
-                <input type="file" name="image" id="image" multiple>
-             </div>
+            <div class="col-6 offset-3 mb-3 ">
+                <label for="image" class="form-label"> Upload Image(s) </label>
+                <input type="file" class="form-control" name="image" id="image" multiple>
+                <div class="valid-feedback"> Looks good! </div>
+            </div>
             <button class="btn btn-success col-2 offset-3 mb-3"> Add trail </button>
         </form>
 
