@@ -7,7 +7,11 @@ const difficulty = ['Easy', 'Moderate', 'Strenuous', 'Extremely strenuous']
 
 const TrailSchema = new Schema({
     title: String,
-    image: String,
+    images: [
+        { url: String,
+          filename: String 
+        }
+    ], 
     difficulty: String,
     location: String,
     distance: Number,

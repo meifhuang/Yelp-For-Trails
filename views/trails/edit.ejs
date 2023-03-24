@@ -3,7 +3,7 @@
     <h1 class="text-center"> Edit <%= trail.title %>
     </h1>
     <div class="row col-md-12">
-        <form action='/trails/<%=trail._id%>?_method=PUT' method="POST" novalidate class="validated">
+        <form action='/trails/<%=trail._id%>?_method=PUT' method="POST" novalidate class="validated" enctype="multipart/form-data">
             <div class="col-6 offset-3 mb-3">
                 <label class="form-label" for="title"> Enter trail name </label>
                 <input type="text" class="form-control" name="title" id="title" value="<%=trail.title%>" required>
@@ -15,11 +15,11 @@
                     required>
                 <div class="valid-feedback"> Looks good! </div>
             </div>
-            <div class="col-6 offset-3 mb-3">
+            <!-- <div class="col-6 offset-3 mb-3">
                 <label class="form-label" for="image"> Enter image URL </label>
                 <input type="text" class="form-control" name="image" id="image" value="<%=trail.image%>" required>
                 <div class="valid-feedback"> Looks good! </div>
-            </div>
+            </div> -->
             <div class="col-6 offset-3 mb-3">
                 <label class="form-label" for="distance"> Enter distance in miles </label>
                 <input type="text" class="form-control" name="distance" id="distance" value="<%=trail.distance%>"
@@ -35,6 +35,10 @@
                         <% } %>
                 </select>
             </div>
+            <div class="col-6 offset-3 mb-3">
+                <label for="image" class="form-label"> Add images </label>
+                <input type="file" name="image" id="image" multiple>
+             </div>
             <button class="btn btn-success col-sm-2 offset-3 mb-3"> Update trail </button>
         </form>
         <a href="/trails/<%=trail._id%>" class="col-6 offset-3 mb-5"> Back to trails </a>

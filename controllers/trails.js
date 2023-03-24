@@ -1,6 +1,7 @@
 const Trail = require('../models/trail');
 
 //for trail difficulty options
+const difficulty = ['Easy', 'Moderate', 'Strenuous', 'Extremely strenuous']
 
 module.exports.index = async (req, res) => {
     const trail_list = await Trail.find({});
@@ -13,8 +14,10 @@ module.exports.trailForm = (req, res) => {
 
 module.exports.createTrail = async (req, res, next) => {
     const trail = new Trail(req.body);
+    trail.images = req.files.map(f => ({url: f.path, filename: f.filename})); 
     trail.author = req.user._id;
     await trail.save();
+    console.log(trail);
     req.flash('success', 'Succesfully created trail');
     res.redirect(`/trails/${trail._id}`);
 }
@@ -45,6 +48,9 @@ module.exports.trailEditForm = async (req, res,) => {
 module.exports.editTrail = async (req, res) => {
     const { id } = req.params
     const trailz = await Trail.findByIdAndUpdate(id, { ...req.body })
+    const imgs = req.files.map(f => ({url: f.path, filename: f.filename}));
+    trailz.images.push(...imgs);
+    await trailz.save();
     req.flash('success', "Successfully updated trail")
     res.redirect(`/trails/${trailz._id}`)
 }

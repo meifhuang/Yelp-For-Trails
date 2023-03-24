@@ -15,6 +15,10 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config()
+}
+
 mongoose.connect(process.env.MONGODB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,

@@ -23,7 +23,16 @@ const seedDB = async () => {
     const a = new Trail(
         {
             title: 'Skyline Trail',
-            image: 'https://images.unsplash.com/photo-1600930383967-31d0604377b9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80',
+            images: [
+                {
+                  url: 'https://res.cloudinary.com/dxq4m23dd/image/upload/v1679630520/YelpTrail/n24rgq5vxst71yhgdngk.png',
+                  filename: 'YelpTrail/n24rgq5vxst71yhgdngk',
+                },
+                {
+                  url: 'https://res.cloudinary.com/dxq4m23dd/image/upload/v1679630520/YelpTrail/w1fcyxz3b0max1wtu171.png',
+                  filename: 'YelpTrail/w1fcyxz3b0max1wtu171',
+                }
+              ],
             location: 'Washington',
             difficulty: 'Strenuous',
             distance: 6.2,
@@ -32,7 +41,16 @@ const seedDB = async () => {
     const b = new Trail(
         {
             title: 'Angels Landing',
-            image: 'https://images.unsplash.com/photo-1664489689704-748fa89bc172?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
+            images: [
+                {
+                  url: 'https://res.cloudinary.com/dxq4m23dd/image/upload/v1679630520/YelpTrail/n24rgq5vxst71yhgdngk.png',
+                  filename: 'YelpTrail/n24rgq5vxst71yhgdngk',
+                },
+                {
+                  url: 'https://res.cloudinary.com/dxq4m23dd/image/upload/v1679630520/YelpTrail/w1fcyxz3b0max1wtu171.png',
+                  filename: 'YelpTrail/w1fcyxz3b0max1wtu171',
+                }
+              ],
             location: 'Utah',
             difficulty: 'Strenuous',
             distance: 5.4,
@@ -41,7 +59,16 @@ const seedDB = async () => {
     const c = new Trail(
         {
             title: 'Grinnell Glacier',
-            image: 'https://images.unsplash.com/photo-1568582285914-4bfacceaf551?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80',
+            images: [
+                {
+                  url: 'https://res.cloudinary.com/dxq4m23dd/image/upload/v1679630520/YelpTrail/n24rgq5vxst71yhgdngk.png',
+                  filename: 'YelpTrail/n24rgq5vxst71yhgdngk',
+                },
+                {
+                  url: 'https://res.cloudinary.com/dxq4m23dd/image/upload/v1679630520/YelpTrail/w1fcyxz3b0max1wtu171.png',
+                  filename: 'YelpTrail/w1fcyxz3b0max1wtu171',
+                }
+              ],
             location: 'Montana',
             difficulty: 'Strenuous',
             distance: 10.6,
@@ -51,7 +78,16 @@ const seedDB = async () => {
         {
             title: 'Half Dome',
             location: 'California',
-            image: 'https://images.unsplash.com/photo-1631029266314-18309c825e83?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80',
+            images: [
+                {
+                  url: 'https://res.cloudinary.com/dxq4m23dd/image/upload/v1679630520/YelpTrail/n24rgq5vxst71yhgdngk.png',
+                  filename: 'YelpTrail/n24rgq5vxst71yhgdngk',
+                },
+                {
+                  url: 'https://res.cloudinary.com/dxq4m23dd/image/upload/v1679630520/YelpTrail/w1fcyxz3b0max1wtu171.png',
+                  filename: 'YelpTrail/w1fcyxz3b0max1wtu171',
+                }
+              ],
             difficulty: 'Extremely strenuous',
             distance: 7.2,
             author: '64193db6b4186a18ce975e7e'
@@ -60,7 +96,16 @@ const seedDB = async () => {
     const g = new Trail(
         {
             title: 'Notch Trail',
-            image: 'https://images.unsplash.com/photo-1599010155319-ae106756512e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80',
+            images: [
+                {
+                  url: 'https://res.cloudinary.com/dxq4m23dd/image/upload/v1679630520/YelpTrail/n24rgq5vxst71yhgdngk.png',
+                  filename: 'YelpTrail/n24rgq5vxst71yhgdngk',
+                },
+                {
+                  url: 'https://res.cloudinary.com/dxq4m23dd/image/upload/v1679630520/YelpTrail/w1fcyxz3b0max1wtu171.png',
+                  filename: 'YelpTrail/w1fcyxz3b0max1wtu171',
+                }
+              ],
             location: 'South Dakota',
             difficulty: 'Easy',
             distance: 1.5,
