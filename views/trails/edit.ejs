@@ -40,9 +40,9 @@
                 <input type="file" class="form-control" name="image" id="image" multiple>
                 <div class="valid-feedback"> Looks good! </div>
             </div>
-            <div class="col-6 offset-3 mb-3 d-flex flex-column">
+            <div class="offset-3 mb-3">
                 <% trail.images.forEach(function(img, i) { %>
-                    <img src="<%=img.url%>" class="img-thumbnail" alt="" >
+                    <img src="<%=img.thumbnail%>" class="img-thumbnail" alt="" >
                     <div class="form-check-inline">
                         <input type="checkbox" id="image/<%=i%>" name="deleteImages[]" value="<%=img.filename%>" >
                         <label for="image/<%=i%>">Delete</label>
