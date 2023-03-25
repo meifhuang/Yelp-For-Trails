@@ -1,6 +1,8 @@
 const Trail = require('../models/trail');
 const {cloudinary} = require('../cloudinary');
-
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding")
+const mapboxToken = process.env.MAP_BOX
+const geocoder = mbxGeocoding({accessToken: mapboxToken}); 
 //for trail difficulty options
 const difficulty = ['Easy', 'Moderate', 'Strenuous', 'Extremely strenuous']
 
@@ -14,7 +16,14 @@ module.exports.trailForm = (req, res) => {
 }
 
 module.exports.createTrail = async (req, res, next) => {
+    //forward geocoding 
+    const geoData = await geocoder.forwardGeocode({
+        query: req.body.location, 
+        limit: 1
+    }).send()
+
     const trail = new Trail(req.body);
+    trail.geometry = geoData.body.features[0].geometry
     trail.images = req.files.map(f => ({url: f.path, filename: f.filename})); 
     trail.author = req.user._id;
     await trail.save();

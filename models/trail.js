@@ -17,6 +17,17 @@ ImageSchema.virtual('thumbnail').get(function () {
 
 const TrailSchema = new Schema({
     title: String,
+    geometry: {
+        type: {
+            type: String,
+            enum: ["Point"],
+            required: true
+    },
+    coordinates: {
+        type: [Number],
+        required: true
+        }
+    }, 
     images:[ImageSchema],
     difficulty: String,
     location: String,
