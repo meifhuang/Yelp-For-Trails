@@ -6,8 +6,9 @@ module.exports.trailSchema = Joi.object({
     // image: Joi.string().required(),
     difficulty: Joi.string().required(),
     location: Joi.string().required(),
-    distance: Joi.number().required()
-}).required()
+    distance: Joi.number().required(),
+    deleteImages: Joi.array()
+});
 
 module.exports.reviewSchema = Joi.object({
     comment: Joi.string().required(),

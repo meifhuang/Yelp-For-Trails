@@ -1,4 +1,5 @@
 const Trail = require('../models/trail');
+const {cloudinary} = require('../cloudinary');
 
 //for trail difficulty options
 const difficulty = ['Easy', 'Moderate', 'Strenuous', 'Extremely strenuous']
@@ -17,7 +18,6 @@ module.exports.createTrail = async (req, res, next) => {
     trail.images = req.files.map(f => ({url: f.path, filename: f.filename})); 
     trail.author = req.user._id;
     await trail.save();
-    console.log(trail);
     req.flash('success', 'Successfully created trail');
     res.redirect(`/trails/${trail._id}`);
 }
@@ -51,6 +51,13 @@ module.exports.editTrail = async (req, res) => {
     const imgs = req.files.map(f => ({url: f.path, filename: f.filename}));
     trailz.images.push(...imgs);
     await trailz.save();
+    if (req.body.deleteImages) { 
+    for (let filename of req.body.deleteImages) {
+        await cloudinary.uploader.destroy(filename)
+    } 
+    await trailz.updateOne({$pull: {images: {filename: {$in: req.body.deleteImages}}}});
+    console.log(trailz);
+} 
     req.flash('success', "Successfully updated trail")
     res.redirect(`/trails/${trailz._id}`)
 }
