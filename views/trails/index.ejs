@@ -4,8 +4,12 @@
          <div class="card mt-4 mb-4" style="max-width: 640px;">
             <div class="row g-0">
                <div class="col-6">
+                  <% if (t.images.length) {%> 
                   <img style="height: 250px ; width: 280px" src="<%=t.images[0].url%>" alt="" class="rounded-start img-fluid"
                      alt="N/A">
+                 <% } else { %>
+                  <img src="" alt="">
+                 <%}%>
                </div>
                <div class="col-5">
                   <div class="card-body">

@@ -57,8 +57,14 @@ module.exports.trailEditForm = async (req, res,) => {
 module.exports.editTrail = async (req, res) => {
     const { id } = req.params
     const trailz = await Trail.findByIdAndUpdate(id, { ...req.body })
+    const geoData = await geocoder.forwardGeocode({
+        query: req.body.location, 
+        limit: 1
+    }).send();
+    trailz.geometry = geoData.body.features[0].geometry
     const imgs = req.files.map(f => ({url: f.path, filename: f.filename}));
     trailz.images.push(...imgs);
+
     await trailz.save();
     if (req.body.deleteImages) { 
     for (let filename of req.body.deleteImages) {

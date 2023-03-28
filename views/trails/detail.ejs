@@ -5,23 +5,24 @@
     <div class="col-lg-5 offset-lg-1 me-lg-3">
       <div id="carouselExample" class="carousel slide">
         <div class="carousel-inner">
-        <% trail.images.forEach((img , i) => { %> 
-          <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
-            <img src="<%= img.url %>" class="d-block w-100" alt="">
-          </div>
-          <%})%>
+            <% trail.images.forEach((img , i) => { %> 
+            <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+              <img src="<%= img.url %>" class="d-block w-100" alt="">
+            </div>
+            <%})%>
         </div>
-        <% if (trail.images.length > 1) {%> 
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
+          
+          <% if (trail.images.length > 1) {%> 
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
       <%}%>
+    </div>
 
       <div class="card mb-3 mt-2">
         <div class="card-body">
@@ -46,18 +47,20 @@
             </form>
           </div>
           <% } %>
-            <div class="card-footer text-muted"> Added by <%=trail.author.username%>
-            </div>
-      </div>
-
+          <div class="card-footer text-muted"> Added by <%=trail.author.username%></div>
+        </div> 
       <div class="mb-3">
         <a href="/trails"> Return to all trails </a>
       </div>
     </div>
-    <div class="col-lg-5 col-md-4">
+    
+    
+    <div class="col-lg-5 col-md-4 mt-2">
+      <div id='map' style='width: 400px; height: 300px;'>
+      </div>
+    <div class="col-lg-8">
       <form action="/trails/<%=trail._id%>/reviews" method="POST" class="mb-3 validated" novalidate>
         <div class="mb-3">
-          <div class="">
             <% if (currentUser) {%>
               <h3 class="mt-2 mb-3"> Leave a review </h3>
               <fieldset class="starability-basic">
@@ -74,9 +77,8 @@
                 <input type="radio" id="first-rate5" name="rating" value="5" />
                 <label for="first-rate5" title="Amazing">5 stars</label>
               </fieldset>
-          </div>
           <label class="form-label" for="comment"> Comment </label>
-          <textarea class="form-control" name="comment" id="comment" cols="30" rows="5" required></textarea>
+          <textarea class="form-control" name="comment" id="comment" rows="5" cols="100" required></textarea>
           <div class="valid-feedback"> Looks good! </div>
         </div>
         <button class="btn btn-success"> Submit </button>
@@ -102,3 +104,21 @@
           </div>
           <%}%>
   </div>
+
+
+  <script>
+const trail = <%- JSON.stringify(trail) %>;
+  </script>
+<script>
+  mapboxgl.accessToken = '<%-process.env.MAP_BOX%>';
+  const map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/streets-v12', 
+  center: trail.geometry.coordinates,
+  zoom: 10, // starting zoom
+  })
+  const marker1 = new mapboxgl.Marker()
+.setLngLat(trail.geometry.coordinates)
+.addTo(map);
+
+</script>
