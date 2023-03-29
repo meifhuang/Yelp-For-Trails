@@ -1,24 +1,27 @@
 <% layout('layouts/boilerplate')%>
-      <h1> Trails List </h1>
+   <div class="container">
+      <div class="row col-md-8 offset-md-2 col-xl-6 offset-xl-3"> 
+         <h1> All Trails </h1>
+         <a href="trails/new"> Add a new trail </a>
       <% for (let t of trail_list) { %>
-         <div class="card mt-4 mb-4" style="max-width: 640px;">
-            <div class="row g-0">
-               <div class="col-6">
+         <div class="card mb-3">
+            <div class="row">
+               <div class="col">
                   <% if (t.images.length) {%> 
-                  <img style="height: 250px ; width: 280px" src="<%=t.images[0].url%>" alt="" class="rounded-start img-fluid"
+                  <img src="<%=t.images[0].url%>" alt="" class="rounded-start img-fluid" style="height: 100%"
                      alt="N/A">
                  <% } else { %>
-                  <img src="" alt="">
+                  <img class="img-fluid" src="https://images.unsplash.com/photo-1584824486509-112e4181ff6b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80" alt="">
                  <%}%>
                </div>
-               <div class="col-5">
+               <div class="col">
                   <div class="card-body">
                      <h4 class="card-title">
                         <%= t.title %>
                      </h4>
                      <p class="card-text"> Located in <%= t.location %>
                      </p>
-                     <p class="card-text mb-5"><small class="text-muted">
+                     <p class="card-text mb-3"><small class="text-muted">
                            <%= t.distance %> miles
                         </small></p>
                      <a href="trails/<%=t._id%>" class="btn btn-outline-info col-auto row-1" tabindex="-1"
@@ -28,6 +31,5 @@
             </div>
          </div>
          <% } %>
-            <a href="trails/new" class="btn btn-secondary col-auto row-1 mb-3" tabindex="-1" role="button"> Add a new
-               trail
-            </a>
+      </div>
+   </div>

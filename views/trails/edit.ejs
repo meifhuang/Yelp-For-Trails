@@ -1,32 +1,27 @@
 <% layout('layouts/boilerplate')%>
 
-    <h1 class="text-center"> Edit <%= trail.title %>
-    </h1>
-    <div class="row col-md-12">
+<div class="row">
+    <h1 class="text-center"> Edit <%= trail.title %> </h1>
+    <div class="col-md-6 offset-md-3 my-3 col-xl-4 offset-xl-4">
         <form action='/trails/<%=trail._id%>?_method=PUT' method="POST" novalidate class="validated" enctype="multipart/form-data">
-            <div class="col-6 offset-3 mb-3">
+            <div class="mb-3">
                 <label class="form-label" for="title"> Enter trail name </label>
                 <input type="text" class="form-control" name="title" id="title" value="<%=trail.title%>" required>
                 <div class="valid-feedback"> Looks good! </div>
             </div>
-            <div class="col-6 offset-3 mb-3">
+            <div class="mb-3">
                 <label class="form-label" for="location"> Enter state </label>
                 <input type="text" class="form-control" name="location" id="location" value="<%=trail.location%>"
                     required>
                 <div class="valid-feedback"> Looks good! </div>
             </div>
-            <!-- <div class="col-6 offset-3 mb-3">
-                <label class="form-label" for="image"> Enter image URL </label>
-                <input type="text" class="form-control" name="image" id="image" value="<%=trail.image%>" required>
-                <div class="valid-feedback"> Looks good! </div>
-            </div> -->
-            <div class="col-6 offset-3 mb-3">
+            <div class=" mb-3">
                 <label class="form-label" for="distance"> Enter distance in miles </label>
                 <input type="text" class="form-control" name="distance" id="distance" value="<%=trail.distance%>"
                     required>
                 <div class="valid-feedback"> Looks good! </div>
             </div>
-            <div class="col-6 offset-3 mb-3">
+            <div class=" mb-3">
                 <label class="form-label" for="difficulty"> Select difficulty </label>
                 <select name="difficulty" class="form-control" id="difficulty" required>
                     <% for (let diff of difficulty) { %>
@@ -35,12 +30,12 @@
                         <% } %>
                 </select>
             </div>
-            <div class="col-6 offset-3 mb-3 ">
+            <div class="mb-3 ">
                 <label for="image" class="form-label"> Add Image(s) </label>
                 <input type="file" class="form-control" name="image" id="image" multiple>
                 <div class="valid-feedback"> Looks good! </div>
             </div>
-            <div class="offset-3 mb-3">
+            <div class="mb-3">
                 <% trail.images.forEach(function(img, i) { %>
                     <img src="<%=img.thumbnail%>" class="img-thumbnail" alt="" >
                     <div class="form-check-inline">
@@ -49,8 +44,8 @@
                     </div>
                 <%})%> 
             </div>
-            
-            <button class="btn btn-success col-sm-2 offset-3 mb-3"> Update trail </button>
+            <button class="btn btn-info"> Update trail </button>
         </form>
-        <a href="/trails/<%=trail._id%>" class="col-6 offset-3 mb-5"> Back to trails </a>
+    </div>
+        <a href="/trails/<%=trail._id%>" class="offset-md-3 offset-xl-4 mb-4 mb-5"> Back to trails </a>
     </div>
