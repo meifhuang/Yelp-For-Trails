@@ -56,7 +56,7 @@
     
     
     <div class="col-lg-5 col-md-4 mt-2">
-      <div id='map' style='width: 400px; height: 300px;'>
+      <div id='map' class="mb-3 "style='width: 400px; height: 300px;'>
       </div>
     <div class="col-lg-8">
       <form action="/trails/<%=trail._id%>/reviews" method="POST" class="mb-3 validated" novalidate>
@@ -117,8 +117,13 @@ const trail = <%- JSON.stringify(trail) %>;
   center: trail.geometry.coordinates,
   zoom: 10, // starting zoom
   })
+
   const marker1 = new mapboxgl.Marker()
 .setLngLat(trail.geometry.coordinates)
+.setPopup(
+  new mapboxgl.Popup({offset: 25})
+  .setHTML(`<h4> ${trail.title} </h4><p> ${trail.location}<p>`)
+)
 .addTo(map);
 
 </script>
