@@ -42,7 +42,7 @@ module.exports.showTrail = async (req, res) => {
         req.flash('error', 'Trail not found')
         return res.redirect('/trails');
     }
-    res.render('trails/detail', { trail })
+    res.render('trails/detail', { trail, reviews, pages: Math.ceil(count/limit), current: page })
 }
 
 module.exports.trailEditForm = async (req, res,) => {

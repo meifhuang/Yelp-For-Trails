@@ -1,22 +1,21 @@
 <% layout('layouts/boilerplate')%>
    <div class="container">
-      <div class="row col-md-8 offset-md-2 col-xl-6 offset-xl-3"> 
+      <div class="row col-md-8 offset-md-2 col-xl-6 offset-xl-3 mb-3"> 
          <h1> All Trails </h1>
-         <a href="trails/new"> Add a new trail </a>
+         <a href="trails/new" class="mb-3"> Add a new trail </a>
       <% for (let t of trail_list) { %>
          <div class="card mb-3">
             <div class="row">
-               <div class="col">
+               <div class="col m-0 p-0">
                   <% if (t.images.length) {%> 
-                  <img src="<%=t.images[0].url%>" alt="" class="rounded-start img-fluid" style="height: 100%"
-                     alt="N/A">
+                  <img src="<%=t.images[0].url%>" alt="" class="img-fluid" style="width: 260px; height: 210px"  alt="N/A">
                  <% } else { %>
-                  <img class="img-fluid" src="https://images.unsplash.com/photo-1584824486509-112e4181ff6b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80" alt="">
+                  <img class="img-fluid" style="width: 266px; height: 220px" src="https://images.unsplash.com/photo-1584824486509-112e4181ff6b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80" alt="">
                  <%}%>
                </div>
                <div class="col">
                   <div class="card-body">
-                     <h4 class="card-title">
+                     <h4 class="card-title mt-3">
                         <%= t.title %>
                      </h4>
                      <p class="card-text"> Located in <%= t.location %>
@@ -24,7 +23,7 @@
                      <p class="card-text mb-3"><small class="text-muted">
                            <%= t.distance %> miles
                         </small></p>
-                     <a href="trails/<%=t._id%>" class="btn btn-outline-info col-auto row-1" tabindex="-1"
+                     <a href="trails/<%=t._id%>" class="btn btn-outline-info col row-1" tabindex="-1"
                         role="button">View <%= t.title %> </a>
                   </div>
                </div>

@@ -2,7 +2,7 @@
 
 <div class="row">
     <h1 class="text-center"> Edit <%= trail.title %> </h1>
-    <div class="col-md-6 offset-md-3 my-3 col-xl-4 offset-xl-4">
+    <div class="col-md-8 offset-md-2 my-3 col-xl-6 offset-xl-3">
         <form action='/trails/<%=trail._id%>?_method=PUT' method="POST" novalidate class="validated" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label" for="title"> Enter trail name </label>
@@ -47,5 +47,5 @@
             <button class="btn btn-info"> Update trail </button>
         </form>
     </div>
-        <a href="/trails/<%=trail._id%>" class="offset-md-3 offset-xl-4 mb-4 mb-5"> Back to trails </a>
+        <a href="/trails/<%=trail._id%>" class="offset-md-2 offset-xl-3 mb-4 mb-5"> Back to trails </a>
     </div>
