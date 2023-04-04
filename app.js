@@ -16,6 +16,7 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize'); 
 
+//if in production mode
 if (process.env.NODE_ENV !== "production") {
     require('dotenv').config()
 }
@@ -42,11 +43,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize());
 
 const sessConfig = {
+    name: 'session', 
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
+        // secure: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7,
     }
