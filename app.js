@@ -15,6 +15,9 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize'); 
+const MongoDBStore = require('connect-mongo');
+
+
 
 //if in production mode
 if (process.env.NODE_ENV !== "production") {
@@ -40,9 +43,23 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(mongoSanitize());
 
+const store = MongoDBStore.create({
+    mongoUrl: process.env.MONGODB,
+    crypto: {
+        secret: process.env.MONGOSTORE_SECRET
+    }, 
+    touchAfter: 24 * 3600
+})
+
+store.on("error", function(e) {
+    console.log("SESSION STORE ERR", e);
+})
+
 const sessConfig = {
+    store,
     name: 'session', 
     secret: process.env.SECRET_KEY,
     resave: false,
@@ -69,11 +86,6 @@ passport.deserializeUser(User.deserializeUser());
 
 //middleware for every single request - all routes will all have access to these
 app.use((req, res, next) => {
-    console.log(req.originalUrl)
-    if (!['/login', '/home'].includes(req.originalUrl)) {
-        req.session.returnTo = req.originalUrl;
-        console.log("checking route", req.session)
-    }
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
