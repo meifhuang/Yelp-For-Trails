@@ -76,13 +76,16 @@
                 <label for="first-rate5" title="Amazing">5 stars</label>
               </fieldset>
           <label class="form-label" for="comment"> Comment </label>
-          <textarea class="form-control" name="comment" id="comment" rows="5" cols="100" required></textarea>
+          <textarea class="form-control" name="comment" id="comment" rows="5" required></textarea>
           <div class="valid-feedback"> Looks good! </div>
         <button class="btn btn-success mt-3 "> Submit </button>
       </form>
       <%}%>
+   
+      <div class="overflow-scroll scroll m-1"> 
+        <h4 class="m-3"> Reviews </h4>
         <% for (let review of trail.reviews) {%>
-          <div class="card mb-3">
+          <div class="card m-3">
             <div class="card-body">
               <h5 class="card-title mt-1">
                 <%= review.author.username %>
@@ -100,6 +103,8 @@
             </div>
           </div>
           <%}%>
+        </div>
+
   </div>
 
 
