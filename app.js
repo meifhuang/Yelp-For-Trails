@@ -46,7 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(mongoSanitize());
 
-const store = new MongoDBStore.create({
+const store = MongoDBStore.create({
     mongoUrl: process.env.MONGODB,
     crypto: {
     secret: process.env.MONGOSTORE_SECRET
