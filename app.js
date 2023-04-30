@@ -27,6 +27,8 @@ if (process.env.NODE_ENV !== "production") {
 mongoose.connect(process.env.MONGODB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000, 
+    socketTimeoutMS: 45000, 
 });
 
 
@@ -46,21 +48,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(mongoSanitize());
 
-const store = MongoDBStore.create({
-    mongoUrl: process.env.MONGODB,
-    crypto: {
-    secret: process.env.MONGOSTORE_SECRET
-    },
-    touchAfter: 24 * 3600,
+// const store = MongoDBStore.create({
+//     mongoUrl: process.env.MONGODB,
+//     crypto: {
+//     secret: process.env.MONGOSTORE_SECRET
+//     },
+//     touchAfter: 24 * 3600,
+// })
 
-})
-
-store.on("error", function(e) {
-    console.log("SESSION STORE ERR", e);
-})
 
 const sessConfig = {
-    store,
     name: 'session', 
     secret: process.env.SECRET_KEY,
     resave: false,
