@@ -29,7 +29,7 @@ module.exports.createTrail = async (req, res, next) => {
     console.log(trail)
     await trail.save();
     req.flash('success', 'Successfully created trail');
-    res.redirect("/trails");
+    res.redirect(`/trails/${trail._id}`)
 }
 
 module.exports.showTrail = async (req, res) => {
