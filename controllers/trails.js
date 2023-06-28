@@ -26,7 +26,8 @@ module.exports.createTrail = async (req, res, next) => {
     trail.geometry = geoData.body.features[0].geometry
     trail.images = req.files.map(f => ({url: f.path, filename: f.filename})); 
     trail.author = req.user._id;
-    res.send(trail)
+    console.log(trail)
+    res.redirect('/login')
     // await trail.save();
 
     // req.flash('success', 'Successfully created trail');
