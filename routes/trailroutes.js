@@ -13,7 +13,8 @@ router.get('/', catchAsync(trails.index));
 
 router.get('/new', isLoggedIn, trails.trailForm)
 
-// router.post('/', isLoggedIn, validateTrail, catchAsync(trails.createTrail))
+router.post('/', isLoggedIn, validateTrail, catchAsync(trails.createTrail))
+
 router.post('/', isLoggedIn, upload.array('image'), validateTrail, catchAsync(trails.createTrail));
 
 router.get('/:id', catchAsync(trails.showTrail))

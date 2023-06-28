@@ -23,18 +23,13 @@ module.exports.createTrail = async (req, res, next) => {
     }).send()
 
     const trail = new Trail(req.body);
-    if (trail) { 
     trail.geometry = geoData.body.features[0].geometry
     trail.images = req.files.map(f => ({url: f.path, filename: f.filename})); 
     trail.author = req.user._id;
+    console.log(trail)
     await trail.save();
     req.flash('success', 'Successfully created trail');
     res.redirect("/trails");
-    }
-    else {
-        req.flash('error', 'Trail could not be created')
-    }
-
 }
 
 module.exports.showTrail = async (req, res) => {
