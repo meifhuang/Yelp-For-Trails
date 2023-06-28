@@ -26,10 +26,12 @@ module.exports.createTrail = async (req, res, next) => {
     trail.geometry = geoData.body.features[0].geometry
     trail.images = req.files.map(f => ({url: f.path, filename: f.filename})); 
     trail.author = req.user._id;
-    console.log(trail)
     await trail.save();
+
+
     req.flash('success', 'Successfully created trail');
-    res.redirect(`/trails/${trail._id}`)
+
+    setTimeout(res.redirect(`/trails/${trail._id}`), 7000)
 }
 
 module.exports.showTrail = async (req, res) => {
@@ -67,6 +69,7 @@ module.exports.editTrail = async (req, res) => {
     trailz.images.push(...imgs);
 
     await trailz.save();
+
     if (req.body.deleteImages) { 
     for (let filename of req.body.deleteImages) {
         await cloudinary.uploader.destroy(filename)
