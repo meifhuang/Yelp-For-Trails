@@ -29,9 +29,13 @@ Once logged in, click Add a trail to add one to the list. Enter all the required
 
 <img width="1464" alt="Screen Shot 2023-06-28 at 2 05 40 PM" src="https://github.com/meifhuang/Yelp-Trails/assets/100555326/f166492d-a777-4ebf-b505-a7cd12790cc3">
 
-## Delete trail 
-Users who created the trail can delete the trail. 
+## Edit or Delete trail 
+Users who created the trail can edit trail information or delete the trail. 
+
+<img width="708" alt="delete trail" src="https://github.com/user-attachments/assets/4ef126fc-cd65-4ab0-808b-4566b0875c1a">
 
 ## Reviews
 
+Users can see reviews whether or not they're logged in but can only leave a review once they are logged in. Users can also delete their own reviews if they are logged in. 
 
+<img width="990" alt="reviews" src="https://github.com/user-attachments/assets/2216c01c-d439-49f7-8a4f-53d3fe8f0b88">
